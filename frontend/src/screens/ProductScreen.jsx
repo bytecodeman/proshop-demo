@@ -9,10 +9,15 @@ const ProductScreen = () => {
   const { id: productId } = useParams();
 
   useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(`/api/products/${productId}`);
-      setProduct(data);
-    })();
+    const fetchProduct = async () => {
+      try {
+        const { data } = await axios.get(`/api/products/${productId}`);
+        setProduct(data);
+      } catch (err) {
+        console.log("ERROR Getting Product");
+      }
+    };
+    fetchProduct();
   }, [productId]);
 
   if (!product) return null;
