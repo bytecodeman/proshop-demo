@@ -10,7 +10,22 @@ const Counter = () => {
   console.log(count);
   return (
     <>
-      <p>{count}</p>
+      <p>{false}</p>
+      <p>{null}</p>
+      <p>{undefined}</p>
+      <p>{""}</p>
+      <p>{0}</p>
+      <p>
+        {(function () {
+          switch (count % 2) {
+            case 0:
+              return "Even";
+            case 1:
+              return "Odd";
+            default:
+          }
+        })()}
+      </p>
       <button type="button" onClick={buttonclick}>
         Increment
       </button>
