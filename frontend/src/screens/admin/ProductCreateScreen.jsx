@@ -1,27 +1,16 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import Message from "../../components/Message";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 import FormContainer from "../../components/FormContainer";
 import { toast } from "react-toastify";
 import ProductForm from "../../components/ProductForm";
 import {
-  useGetProductDetailsQuery,
-  useUpdateProductMutation,
+  useCreateProductMutation,
   useUploadProductImageMutation,
 } from "../../slices/productsApiSlice";
 
-const ProductEditScreen = () => {
-  const { id: productId } = useParams();
-
-  const {
-    data: product,
-    isLoading,
-    refetch,
-    error,
-  } = useGetProductDetailsQuery(productId);
-
-  const [updateProduct, { isLoading: loadingUpdate }] =
-    useUpdateProductMutation();
+const ProductCreateScreen = () => {
+  const [createProduct, { isLoading: loadingUpdate }] =
+    useCreateProductMutation();
 
   const [uploadProductImage, { isLoading: loadingUpload }] =
     useUploadProductImageMutation();
@@ -30,16 +19,17 @@ const ProductEditScreen = () => {
 
   const submitHandler = async (e, product) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("imageFile", product.imageFile);
 
     try {
-      const res = await uploadProductImage(formData).unwrap();
-      console.log(res);
-      product.image = res.image;
+      if (product.imageFile) {
+        const formData = new FormData();
+        formData.append("imageFile", product.imageFile);
+        const res = await uploadProductImage(formData).unwrap();
+        console.log(res);
+        product.image = res.image;
+      }
 
-      await updateProduct({
-        productId,
+      await createProduct({
         name: product.name,
         price: product.price,
         image: product.image,
@@ -48,8 +38,7 @@ const ProductEditScreen = () => {
         description: product.description,
         countInStock: product.countInStock,
       }).unwrap();
-      toast.success("Product updated successfully");
-      refetch();
+      toast.success("Product created successfully");
       navigate("/admin/productlist");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -62,19 +51,13 @@ const ProductEditScreen = () => {
         Go Back
       </Link>
       <FormContainer>
-        <h1>Edit Product</h1>
+        <h1>Create Product</h1>
         {loadingUpdate && <Loader />}
         {loadingUpload && <Loader />}
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">{error.data.message}</Message>
-        ) : (
-          <ProductForm onSubmitHandler={submitHandler} product={product} />
-        )}
+        <ProductForm onSubmitHandler={submitHandler} />
       </FormContainer>
     </>
   );
 };
 
-export default ProductEditScreen;
+export default ProductCreateScreen;
