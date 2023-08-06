@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Carousel, Image, Card } from "react-bootstrap";
-import Loader from "./Loader";
 import Message from "./Message";
 import Rating from "./Rating";
 import { useGetTopProductsQuery } from "../slices/productsApiSlice";
@@ -16,9 +15,7 @@ const ProductCarousel = () => {
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
+      {isLoading ? null : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
         <>
