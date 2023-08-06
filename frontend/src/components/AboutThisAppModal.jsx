@@ -10,7 +10,7 @@ const AboutThisAppModal = ({ show, handleClose }) => {
 
       <Modal.Body>
         <p>
-          ProShop ecommerce website built with MERN & Redux Toolkit. It is a
+          Ecommerce website built with MERN & Redux Toolkit. It is a
           full-featured shopping cart with PayPal & credit/debit payments.
         </p>
       </Modal.Body>
