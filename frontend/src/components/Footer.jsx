@@ -14,9 +14,20 @@ const Footer = () => {
       <Container>
         <div className="d-flex align-items-center justify-content-between mt-3 mb-5">
           <span>ProShop &copy; {currentYear}</span>
-          <Button variant="outline-primary" size="sm" onClick={handleShow}>
-            About This App
-          </Button>
+          <div>
+            <Button variant="outline-primary" size="sm" onClick={handleShow}>
+              About This App
+            </Button>
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              href="https://github.com/bytecodeman/proshop-demo"
+              target="_blank"
+              className="ms-2"
+            >
+              Source Code
+            </Button>
+          </div>
         </div>
       </Container>
       <AboutThisAppModal show={show} handleClose={handleClose} />

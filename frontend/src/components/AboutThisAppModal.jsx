@@ -5,11 +5,14 @@ const AboutThisAppModal = ({ show, handleClose }) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Modal title</Modal.Title>
+        <Modal.Title>MERN Stack - eCommerce Platform</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <p>Modal body text goes here.</p>
+        <p>
+          ProShop ecommerce website built with MERN & Redux Toolkit. It is a
+          full-featured shopping cart with PayPal & credit/debit payments.
+        </p>
       </Modal.Body>
 
       <Modal.Footer>
