@@ -79,7 +79,7 @@ const ProductScreen = () => {
         </Message>
       ) : (
         <>
-          <Meta title={"ProShop - " + product.name} />
+          <Meta title={"ByteShop - " + product.name} />
           <Row>
             <Col md={5}>
               <Image src={product.image} alt={product.name} fluid />
