@@ -25,7 +25,7 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import PaymentScreen from "./screens/PaymentScreen.jsx";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen.jsx";
 import OrderScreen from "./screens/OrderScreen.jsx";
-import ProfileScreen from "./screens/ProfileScreenSave2.jsx";
+import ProfileScreen from "./screens/ProfileScreen.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
 import OrderListScreen from "./screens/admin/OrderListScreen.jsx";
 import ProductListScreen from "./screens/admin/ProductListScreen.jsx";

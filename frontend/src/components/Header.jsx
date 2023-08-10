@@ -1,12 +1,18 @@
-import { Navbar, Nav, Container, NavDropdown, Badge } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Container,
+  NavDropdown,
+  Badge,
+  Image,
+} from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
-//import SearchBox from './SearchBox';
-import logo from "../assets/logo.png";
+import logo from "../assets/ByteShop.png";
 import SearchBox from "./SearchBox";
 
 //import { resetCart } from "../slices/cartSlice";
@@ -37,13 +43,20 @@ const Header = () => {
     <header>
       <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <LinkContainer to="/">
-            <Navbar.Brand>
-              <img src={logo} alt="ProShop" />
-              ProShop
-            </Navbar.Brand>
-          </LinkContainer>{" "}
-          <SearchBox />
+          <div className="d-flex">
+            <LinkContainer to="/" className="px-3 bg-light">
+              <Navbar.Brand>
+                <Image
+                  src={logo}
+                  alt="ByteShop"
+                  style={{ width: "175px" }}
+                  rounded
+                  fluid
+                />
+              </Navbar.Brand>
+            </LinkContainer>
+            <SearchBox />
+          </div>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">

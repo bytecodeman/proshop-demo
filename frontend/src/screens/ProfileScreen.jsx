@@ -7,27 +7,34 @@ import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { useProfileMutation } from "../slices/usersApiSlice";
+import {
+  useProfileMutation,
+  useGetUserProfileQuery,
+} from "../slices/usersApiSlice";
 import { useGetMyOrdersQuery } from "../slices/ordersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 
 const ProfileScreen = () => {
-  const { userInfo } = useSelector((state) => state.auth);
-
-  const [name, setName] = useState(userInfo.name);
-  const [email, setEmail] = useState(userInfo.email);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const { data: userProfile } = useGetUserProfileQuery();
+
+  useEffect(() => {
+    if (userProfile) {
+      setName(userProfile.name);
+      setEmail(userProfile.email);
+    }
+  }, [userProfile]);
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
 
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
-
-  //  useEffect(() => {
-  //    setName(userInfo.name);
-  //    setEmail(userInfo.email);
-  //  }, [userInfo.email, userInfo.name]);
 
   const dispatch = useDispatch();
   const submitHandler = async (e) => {
@@ -59,7 +66,7 @@ const ProfileScreen = () => {
           <Form.Group className="my-2" controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
-              type="text"
+              type="name"
               placeholder="Enter name"
               value={name}
               onChange={(e) => setName(e.target.value)}
