@@ -1,4 +1,5 @@
 import React from "react";
+import { Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button } from "react-bootstrap";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
@@ -28,7 +29,18 @@ const UserListScreen = () => {
 
   return (
     <>
-      <h1>Users</h1>
+      <Row className="align-items-center">
+        <Col>
+          <h1>Users</h1>
+        </Col>
+        <Col className="text-end">
+          <LinkContainer to="/admin/user/create">
+            <Button className="btn-sm m-3">
+              <FaEdit /> Create User
+            </Button>
+          </LinkContainer>
+        </Col>
+      </Row>
       {isUserDeleting && <Loader />}
       {isLoading ? (
         <Loader />
@@ -63,25 +75,21 @@ const UserListScreen = () => {
                   )}
                 </td>
                 <td>
-                  {!user.isAdmin && (
-                    <>
-                      <LinkContainer
-                        to={`/admin/user/${user._id}/edit`}
-                        style={{ marginRight: "10px" }}
-                      >
-                        <Button variant="light" className="btn-sm">
-                          <FaEdit />
-                        </Button>
-                      </LinkContainer>
-                      <Button
-                        variant="danger"
-                        className="btn-sm"
-                        onClick={() => deleteHandler(user._id)}
-                      >
-                        <FaTrash style={{ color: "white" }} />
-                      </Button>
-                    </>
-                  )}
+                  <LinkContainer
+                    to={`/admin/user/${user._id}/edit`}
+                    style={{ marginRight: "10px" }}
+                  >
+                    <Button variant="light" className="btn-sm">
+                      <FaEdit />
+                    </Button>
+                  </LinkContainer>
+                  <Button
+                    variant="danger"
+                    className="btn-sm"
+                    onClick={() => deleteHandler(user._id)}
+                  >
+                    <FaTrash style={{ color: "white" }} />
+                  </Button>
                 </td>
               </tr>
             ))}

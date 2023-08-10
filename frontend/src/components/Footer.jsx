@@ -13,7 +13,7 @@ const Footer = () => {
     <footer>
       <Container>
         <div className="d-flex align-items-center justify-content-between mt-3 mb-5">
-          <span>ProShop &copy; {currentYear}</span>
+          <span>ByteShop &copy; {currentYear}</span>
           <div>
             <Button variant="outline-primary" size="sm" onClick={handleShow}>
               About This App
