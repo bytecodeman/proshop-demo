@@ -44,13 +44,12 @@ const Header = () => {
       <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <div className="d-flex">
-            <LinkContainer to="/" className="px-3 bg-light">
+            <LinkContainer to="/" className="px-3 bg-white rounded">
               <Navbar.Brand>
                 <Image
                   src={logo}
                   alt="ByteShop"
                   style={{ width: "175px" }}
-                  rounded
                   fluid
                 />
               </Navbar.Brand>
