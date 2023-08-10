@@ -24,7 +24,6 @@ const UserEditScreen = () => {
   const navigate = useNavigate();
 
   const submitHandler = async (e, user) => {
-    console.log(user);
     e.preventDefault();
     try {
       await updateUser({
