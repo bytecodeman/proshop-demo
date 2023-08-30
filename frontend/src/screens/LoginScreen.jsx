@@ -67,19 +67,29 @@ const LoginScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button disabled={isLoading} type="submit" variant="primary">
+        <Button
+          disabled={isLoading}
+          type="submit"
+          variant="primary"
+          className="my-3"
+        >
           Sign In
         </Button>
 
         {isLoading && <Loader />}
       </Form>
 
-      <Row className="py-3">
+      <Row className="my-3">
         <Col>
           New Customer?{" "}
           <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
             Register
           </Link>
+        </Col>
+      </Row>
+      <Row className="my-2">
+        <Col>
+          Forgot Password? <Link to={"/resetpw"}>Reset Password</Link>
         </Col>
       </Row>
     </FormContainer>

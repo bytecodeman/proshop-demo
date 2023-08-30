@@ -1,9 +1,10 @@
 import asyncHandler from "../middleware/asyncHandler.js";
+import nodemailer from "nodemailer";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
 
 // @desc    Auth use and get token
-// @route   POST /api/users/login
+// @route   POST /api/users/auth
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -22,6 +23,43 @@ const authUser = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("Invalid email or password");
   }
+});
+
+// @desc    Reset Users password
+// @route   POST /api/users/resetpw
+// @access  Public
+const resetPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
+  if (user) {
+    const transport = nodemailer.createTransport({
+      host: process.env.MAILER_HOST,
+      port: process.env.MAILER_PORT,
+      auth: {
+        user: process.env.MAILER_USER,
+        pass: process.env.MAILER_PASS,
+      },
+    });
+    const mailOptions = {
+      from: '"ByteShop Support" <tonysilvestri@bytecodeman.com>',
+      to: email,
+      subject: "Password Reset Request",
+      text: "Hey there, it’s our first message sent with Nodemailer ",
+      html: "<b>Hey there! </b><br> Here is the password request.",
+    };
+    transport.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log("Message sent: %s", info.messageId);
+    });
+  }
+
+  res.status(200).json({
+    email,
+    message: "Reset Password Processed",
+  });
 });
 
 // @desc    Register user
@@ -155,10 +193,10 @@ const deleteUser = asyncHandler(async (req, res) => {
   const id = req.params.id;
   const user = await User.findById(id);
   if (user) {
-    if (user.isAdmin) {
-      res.status(400);
-      throw new Error("Can't delete admin user");
-    }
+    //if (user.isAdmin) {
+    //  res.status(400);
+    //  throw new Error("Can't delete admin user");
+    //}
     try {
       await User.deleteOne({ _id: id });
       res.status(201).json({ message: "User deleted successfully" });
@@ -203,6 +241,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 export {
   authUser,
+  resetPassword,
   registerUser,
   createUser,
   logoutUser,
