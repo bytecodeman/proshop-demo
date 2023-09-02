@@ -79,6 +79,19 @@ const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Users"],
     }),
+    getUserDetailsByUUID: builder.query({
+      query: (uuid) => ({
+        url: `${USERS_URL}/uuid/${uuid}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
+    updatePassword: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/updatepw`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -93,5 +106,7 @@ export const {
   useCreateUserMutation,
   useDeleteUserMutation,
   useGetUserDetailsQuery,
+  useGetUserDetailsByUUIDQuery,
   useUpdateUserMutation,
+  useUpdatePasswordMutation,
 } = usersApiSlice;

@@ -2,6 +2,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import nodemailer from "nodemailer";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
+import { randomUUID } from "crypto";
 
 // @desc    Auth use and get token
 // @route   POST /api/users/auth
@@ -33,6 +34,14 @@ const resetPassword = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user) {
+    const uuid = randomUUID();
+
+    user.resetPasswordUUID = uuid;
+    await user.save();
+
+    const baseURL =
+      process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+
     const transport = nodemailer.createTransport({
       host: process.env.MAILER_HOST,
       port: process.env.MAILER_PORT,
@@ -45,8 +54,10 @@ const resetPassword = asyncHandler(async (req, res) => {
       from: '"ByteShop Support" <tonysilvestri@bytecodeman.com>',
       to: email,
       subject: "Password Reset Request",
-      text: "Hey there, it’s our first message sent with Nodemailer ",
-      html: "<b>Hey there! </b><br> Here is the password request.",
+      text: "You must use must display this email as HTML.",
+      html: `<p>Here is the password change link.  You have just one click on this link.</p>
+             <p>If something goes wrong, you'll need to start the reset password process again.</p>
+             <p><a href="${baseURL}/resetpw/${uuid}">Reset Password</a></p>`,
     };
     transport.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -60,6 +71,28 @@ const resetPassword = asyncHandler(async (req, res) => {
     email,
     message: "Reset Password Processed",
   });
+});
+
+// @desc    Reset Users password authenticated with UUID
+// @route   PUT /api/users/updatepw
+// @access  Public
+const updateUserPassword = asyncHandler(async (req, res) => {
+  const { _id, password, resetPasswordUUID } = req.body;
+  const user = await User.findById(_id);
+  if (
+    user &&
+    user.resetPasswordUUID.toString() === resetPasswordUUID.toString()
+  ) {
+    user.password = password;
+    user.resetPasswordUUID = undefined;
+    await user.save();
+    res.status(200).json({
+      message: "Reset Password Processed",
+    });
+  } else {
+    res.status(404);
+    throw new Error("Error processing password change");
+  }
 });
 
 // @desc    Register user
@@ -186,6 +219,24 @@ const getUserByID = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get user by ID
+// @route   Get /api/users/uuid/:uuid
+// @access  Public
+const getUserDetailsByUUID = asyncHandler(async (req, res) => {
+  const uuid = req.params.uuid;
+  const user = await User.findOne({ resetPasswordUUID: uuid }).select(
+    "-password"
+  );
+  if (user) {
+    //user.resetPasswordUUID = undefined;
+    //await user.save();
+    res.status(200).json(user);
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
 // @desc    Delete user
 // @route   Delete /api/users/:id
 // @access  Private/Admin
@@ -246,7 +297,9 @@ export {
   createUser,
   logoutUser,
   getUserProfile,
+  getUserDetailsByUUID,
   updateUserProfile,
+  updateUserPassword,
   getUsers,
   getUserByID,
   deleteUser,

@@ -2,10 +2,12 @@ import express from "express";
 import {
   authUser,
   resetPassword,
+  getUserDetailsByUUID,
   registerUser,
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  updateUserPassword,
   getUsers,
   getUserByID,
   deleteUser,
@@ -22,6 +24,8 @@ router.route("/").post(registerUser).get(protect, admin, getUsers);
 router.post("/logout", logoutUser);
 router.post("/auth", authUser);
 router.post("/resetpw", resetPassword);
+router.put("/updatepw", updateUserPassword);
+router.get("/uuid/:uuid", getUserDetailsByUUID);
 router.post("/create", protect, admin, createUser);
 router
   .route("/profile")
