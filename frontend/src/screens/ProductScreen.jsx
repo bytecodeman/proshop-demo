@@ -47,8 +47,6 @@ const ProductScreen = () => {
     navigate("/cart");
   };
 
-  if (!product) return null;
-
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
