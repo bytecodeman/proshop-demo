@@ -40,7 +40,9 @@ const resetPassword = asyncHandler(async (req, res) => {
     await user.save();
 
     const baseURL =
-      process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : "https://byteshop.onrender.com";
 
     const transport = nodemailer.createTransport({
       host: process.env.MAILER_HOST,
