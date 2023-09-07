@@ -35,7 +35,6 @@ const ProductEditScreen = () => {
 
     try {
       const res = await uploadProductImage(formData).unwrap();
-      console.log(res);
       product.image = res.image;
 
       await updateProduct({

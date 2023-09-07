@@ -5,13 +5,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-console.log(
-  __dirname,
-  process.env.MAILER_HOST,
-  process.env.MAILER_PORT,
-  process.env.MAILER_USER,
-  process.env.MAILER_PASS
-);
 
 const transport = nodemailer.createTransport({
   host: process.env.MAILER_HOST,

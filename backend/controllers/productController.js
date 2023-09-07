@@ -44,7 +44,6 @@ const getProductById = asyncHandler(async (req, res) => {
       res.status(404).json({ message: "Product not found" });
     }
   } catch (error) {
-    console.log("error", error);
     throw new Error("Resource not found");
   }
 });
@@ -80,7 +79,6 @@ const createProduct = asyncHandler(async (req, res) => {
     const createdProduct = await product.save();
     res.status(201).json(createdProduct);
   } catch (err) {
-    console.log(err);
     res.status(400);
     throw new Error(err.message);
   }
@@ -135,7 +133,6 @@ const deleteProduct = asyncHandler(async (req, res) => {
 const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body;
   const product = await Product.findById(req.params.id);
-  console.log(product);
   if (product) {
     const alreadyReviewed = product.reviews.find(
       (review) => review.user.toString() === req.user._id.toString()

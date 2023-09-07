@@ -25,7 +25,6 @@ const ProductCreateScreen = () => {
         const formData = new FormData();
         formData.append("imageFile", product.imageFile);
         const res = await uploadProductImage(formData).unwrap();
-        console.log(res);
         product.image = res.image;
       }
 

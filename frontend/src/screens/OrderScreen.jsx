@@ -37,7 +37,6 @@ const OrderScreen = () => {
     isLoading: loadingPayPal,
     error: errorPayPal,
   } = useGetPaypalClientIdQuery();
-  console.log(paypal);
 
   useEffect(() => {
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {

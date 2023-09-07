@@ -21,7 +21,6 @@ const addOrderItems = asyncHandler(async (req, res) => {
   }
   const order = new Order({
     orderItems: orderItems.map((x) => {
-      console.log(x);
       return {
         ...x,
         product: x._id,
